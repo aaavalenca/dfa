@@ -1,19 +1,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var levelNum : Int = 1
     var body: some View {
         ZStack{
             Color.purple.brightness(-0.8).ignoresSafeArea()
             Image("background").scaledToFill()
-//            Level1()
-            Level(level: "level1", bodies: ["👽"], answer: ["👽"], xPos: [0.8, 0.82, 0.5, 0.2, 0.2], yPos: [0.7, 0.15, 0.06, 0.16, 0.68], angles: [110, 50, 0, -50, -120])
             
+            if levelNum == 1{
+                Level(levelNum: $levelNum, level: "level\(levelNum)_", bodies: ["👽"], answer: ["👽"], xPos: [0.8, 0.82, 0.5, 0.2, 0.2], yPos: [0.7, 0.15, 0.06, 0.16, 0.68], angles: [110, 50, 0, -50, -120])
+            } else if levelNum == 2{
+                Level(levelNum: $levelNum, level: "level\(levelNum)_", bodies: ["👽"], answer: ["👽"], xPos: [0.8, 0.82, 0.5, 0.2, 0.2], yPos: [0.7, 0.15, 0.06, 0.16, 0.68], angles: [110, 50, 0, -50, -120])
+            } else if levelNum == 3{
+                
+            }
         }
     }
 }
 
-
 struct Level : View {
+    @Binding var levelNum : Int
     var level : String
     @State var bodies : [String]
     var answer : [String]
@@ -29,16 +36,16 @@ struct Level : View {
     
     var body : some View{
         VStack{
-            Route()
+            Route(level: level)
                 .overlay(
                     GeometryReader {geo in
                         
-                    // Pickers
+                        // Pickers
                         MenuPicker(bodies: $bodies, selectedBody: $selectedBody1)
-                        .menuStyle(BodyMenu())
-                        .position(x: geo.size.width * 0.5, y: geo.size.height * 0.06)
+                            .menuStyle(BodyMenu())
+                            .position(x: geo.size.width * 0.5, y: geo.size.height * 0.06)
                         
-                    // Rocket animation
+                        // Rocket animation
                         Image("foguetin")
                             .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                             .rotationEffect(Angle(degrees: angles[pos]))
@@ -54,7 +61,7 @@ struct Level : View {
                 )
             
             Button("CONTINUE", action: {
-                print("vai, mago")
+                levelNum+=1
             })
             .buttonStyle(CustomButton(myColor: .white)).padding()
             .disabled(answer != [selectedBody1])
@@ -113,7 +120,7 @@ struct BodyMenu : MenuStyle{
 struct Route : View {
     @State private var idx : Int = 0
     private let timer = Timer.publish(every: 0.7, on: .main, in: .common).autoconnect()
-    var level : String = "level1_"
+    var level : String
     
     var body: some View{
         ZStack{
