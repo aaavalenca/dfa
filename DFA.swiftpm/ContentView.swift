@@ -1,91 +1,86 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     var body: some View {
         ZStack{
             Color.purple.brightness(-0.8).ignoresSafeArea()
             Image("background").scaledToFill()
-            Level1()
-//            GeometryReaderAnimation()
+//            Level1()
+            Level(level: "level1", bodies: ["👽"], answer: ["👽"], xPos: [0.8, 0.82, 0.5, 0.2, 0.2], yPos: [0.7, 0.15, 0.06, 0.16, 0.68], angles: [110, 50, 0, -50, -120])
+            
         }
     }
 }
 
-struct GeometryReaderAnimation: View {
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var animate = false
-    var body: some View {
-        GeometryReader { geo in
-            Circle()
-                .fill(.gray)
-                .frame(width: 30)
-                .position(CGPoint(x: Double.random(in: 10..<geo.size.width), y: Double.random(in: 10..<geo.size.height)))
-                .animation(.spring(), value: animate)
-        }
-        .onReceive(timer, perform: { _ in
-            animate.toggle()
-        })
-    }
-}
 
-struct Level1 : View {
-    var bodies = ["👽"]
-    var answer = ["👽"]
-    let timer = Timer.publish(every: 0.8, on: .main, in: .common).autoconnect()
-
+struct Level : View {
+    var level : String
+    @State var bodies : [String]
+    var answer : [String]
+    var xPos : [CGFloat]
+    var yPos : [CGFloat]
+    var angles : [Double]
+    
+    let timer = Timer.publish(every: 0.8, on: .main, in: .common)
+    
     @State private var selectedBody1 = "?"
     @State var won : Bool = false
     @State var pos : Int = 0
-    var xPos : [CGFloat] = [0.8, 0.82, 0.5, 0.2, 0.2]
-    var yPos : [CGFloat] = [0.7, 0.15, 0.06, 0.16, 0.68]
-    var angles : [Double] = [110, 50, 0, -50, -120]
     
     var body : some View{
-        
         VStack{
-            Route1()
+            Route()
                 .overlay(
                     GeometryReader {geo in
-                        Menu {
-                            Picker(selection: $selectedBody1, label: EmptyView(), content: {
-                                ForEach(bodies, id: \.self) {
-                                    Text($0)
-                                }
-                            })
-                        } label: {
-                            Text(selectedBody1)
-                        }
+                        
+                    // Pickers
+                        MenuPicker(bodies: $bodies, selectedBody: $selectedBody1)
                         .menuStyle(BodyMenu())
                         .position(x: geo.size.width * 0.5, y: geo.size.height * 0.06)
                         
+                    // Rocket animation
                         Image("foguetin")
                             .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                             .rotationEffect(Angle(degrees: angles[pos]))
-//                            .rotationEffect(Angle(degrees: -120))
                             .position(x: geo.size.width * (xPos[pos]), y: geo.size.height * (yPos[pos]))
-//                            .position(x: geo.size.width * 0.2, y: geo.size.height * 0.68)
                             .animation(.linear(duration: 0.8), value: pos)
-                    }
-                        .onReceive(timer, perform: { _ in
-                            if pos < xPos.count - 1{
-                                pos = pos + 1
-                            } else {
-                                timer.upstream.connect().cancel()
-                            }
-                        })
+                    }.onReceive(timer, perform: { _ in
+                        if pos < xPos.count - 1 && won{
+                            pos = pos + 1
+                        } else {
+                            timer.connect().cancel()
+                        }
+                    })
                 )
             
             Button("CONTINUE", action: {
-//                if pos < xPos.count - 1{
-//                    print(pos)
-//                    print(xPos.count)
-//                    print(xPos[pos])
-//                    pos = pos + 1
-//                }
+                print("vai, mago")
             })
             .buttonStyle(CustomButton(myColor: .white)).padding()
             .disabled(answer != [selectedBody1])
+            .onChange(of: selectedBody1) { newValue in
+                if [selectedBody1] == answer {
+                    timer.connect()
+                    won.toggle()
+                }
+            }
+        }
+    }
+}
+
+struct MenuPicker : View{
+    @Binding var bodies : [String]
+    @Binding var selectedBody : String
+    
+    var body: some View{
+        Menu {
+            Picker(selection: $selectedBody, label: EmptyView(), content: {
+                ForEach(bodies, id: \.self) {
+                    Text($0)
+                }
+            })
+        } label: {
+            Text(selectedBody)
         }
     }
 }
@@ -115,14 +110,15 @@ struct BodyMenu : MenuStyle{
     }
 }
 
-struct Route1 : View {
-    @State private var idx = 0
+struct Route : View {
+    @State private var idx : Int = 0
     private let timer = Timer.publish(every: 0.7, on: .main, in: .common).autoconnect()
+    var level : String = "level1_"
     
     var body: some View{
         ZStack{
-            Image("level1_1")
-            Image("level1_\(idx)")
+            Image(level + "1")
+            Image(level + "\(idx)")
                 .animation(.easeInOut(duration: 2))
                 .onReceive(timer) { _ in
                     withAnimation{
