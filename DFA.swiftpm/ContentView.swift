@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var levelNum : Int = 4
+    @State var levelNum : Int = 0
+    @State var onboarding : Bool = true
     var body: some View {
         ZStack{
             Color.purple.brightness(-0.8).ignoresSafeArea()
@@ -11,18 +12,33 @@ struct ContentView: View {
                 .ignoresSafeArea()
             
             VStack{
-                Text("LEVEL \(levelNum)")                           .bold()
+                Text(onboarding ? "WELCOME ABOARD!" : "LEVEL \(levelNum)")
+                    .bold()
                     .foregroundColor(.white)
                     .font(.largeTitle)
                     .padding(20)
+                HStack{
+                    if onboarding{
+                        Button("CONTINUE", action: {
+                            print("GAME")
+                            onboarding.toggle()
+                            levelNum += 1
+                        })
+                        .buttonStyle(CustomButton(myColor: .white))
+                        Button("WHAT IS THIS?", action: {
+                            print("Onboarding")
+                        })
+                        .buttonStyle(CustomButton(myColor: .white))
+                    }
+                }
+                
                 // implement ? for doubts
                 
                 if levelNum == 0 {
                     //onboarding
                 }
-                
                 // take as many 👽 as you need and return to your planet
-                if levelNum == 1{
+                else if levelNum == 1{
                     Level(levelNum: $levelNum,
                           level: "level\(levelNum)_",
                           bodies: ["👽"],
@@ -68,7 +84,8 @@ struct ContentView: View {
                           yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
                           angles: [160, 50, 0, -50, -120])
                 }
-                else {
+                // Goodbye screen
+                else if levelNum == 5 {
                     VStack{
                         Text("Ganhou, môpi!")
                             .foregroundColor(.white)
