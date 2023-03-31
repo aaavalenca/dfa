@@ -1,5 +1,66 @@
 import SwiftUI
 
+struct LevelModel {
+    let levelNum: Int
+    let level: String
+    let bodies: [String]
+    let answer: [String]
+    let pickerXPos: [CGFloat]
+    let pickerYPos: [CGFloat]
+    let xPos: [CGFloat]
+    let yPos: [CGFloat]
+    let angles: [CGFloat]
+    let objective: String
+}
+
+class LevelViewModel : ObservableObject {
+    @Published var allLevels: [LevelModel] =
+    [
+            LevelModel(levelNum: 1,
+//                level: "level\(levelNum)_",
+                  level: "levellevelNum_",
+                  bodies: ["👽"],
+                  answer: ["👽", "?", "?", "?", "?", "?"],
+                  pickerXPos: [0.5],
+                  pickerYPos: [0.05],
+                  xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
+                  yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
+                  angles: [110, 50, 0, -50, -120],
+                  objective: "Capture as many 👽 as you need and return to your home planet."),
+            LevelModel(levelNum: 2,
+                  level: "levellevelNum_",
+                  bodies: ["👽", "🌒"],
+                  answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
+                  pickerXPos: [0.5, 0.93, 0.5, 0.06],
+                  pickerYPos: [0.05, 0.5, 0.96, 0.5],
+                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                  yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
+                  angles: [160, 50, 0, -50, -120],
+                  objective: "Capture an odd number of 👽."),
+            
+            LevelModel(levelNum: 3,
+                  level: "levellevelNum_",
+                  bodies: ["👽", "🌒"],
+                  answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
+                  pickerXPos: [0.5, 0.93, 0.5, 0.06],
+                  pickerYPos: [0.05, 0.5, 0.96, 0.5],
+                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                  yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
+                  angles: [160, 50, 0, -50, -120],
+                  objective: "Capture an even number of 👽."),
+            
+            LevelModel(levelNum: 4,
+                  level: "levellevelNum_",
+                  bodies: ["👽", "🌒"],
+                  answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
+                  pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
+                  pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
+                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                  yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
+                  angles: [160, 50, 0, -50, -120],
+                  objective: "At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽, but can capture more than that.")]
+}
+
 struct ContentView: View {
     @State var levelNum : Int = 0
     @State var onboarding : Bool = true
@@ -32,8 +93,6 @@ struct ContentView: View {
                     }
                 }
                 
-                // implement ? for doubts
-                
                 if levelNum == 0 {
                     //onboarding
                 }
@@ -62,7 +121,7 @@ struct ContentView: View {
                           yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
                           angles: [160, 50, 0, -50, -120],
                           objective: "Capture an odd number of 👽."
-                        )
+                    )
                     // Even 👽. Change only the ending state
                 } else if levelNum == 3{
                     Level(levelNum: $levelNum,
@@ -210,21 +269,28 @@ struct Level : View {
                 )
                 .padding()
             // Continue to next stage. It's only able to tap when winning condition is met
-            Button("CONTINUE", action: {
-                unlocked.toggle()
-                levelNum+=1
-            })
-            .padding(20)
-            .buttonStyle(CustomButton(myColor: .white)).padding()
-            .disabled(!won)
-            .onChange(of: [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]) { _ in
-                selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
+            HStack{
                 
-                //winning condition
-                if selectedBodies == answer {
-                    timer.connect()
-                    won.toggle()
+                Button("CONTINUE", action: {
+                    unlocked.toggle()
+                    levelNum+=1
+                })
+                .padding(20)
+                .buttonStyle(CustomButton(myColor: .white)).padding()
+                .disabled(!won)
+                .onChange(of: [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]) { _ in
+                    selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
+                    
+                    //winning condition
+                    if selectedBodies == answer {
+                        timer.connect()
+                        won.toggle()
+                    }
                 }
+                Button("WHAT WAS IT AGAIN?"){
+                    popover.toggle()
+                }.buttonStyle(CustomButton(myColor: .white))
+                    .padding()
             }
         }.onAppear {
             self.selectedBodies.append(selectedBody1)
