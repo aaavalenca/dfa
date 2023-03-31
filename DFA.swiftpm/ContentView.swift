@@ -47,7 +47,8 @@ struct ContentView: View {
                           pickerYPos: [0.05],
                           xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
                           yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
-                          angles: [110, 50, 0, -50, -120])
+                          angles: [110, 50, 0, -50, -120],
+                          objective: "Capture as many 👽 as you need and return to your home planet.")
                     
                     // An odd number of 👽
                 } else if levelNum == 2{
@@ -59,18 +60,21 @@ struct ContentView: View {
                           pickerYPos: [0.05, 0.5, 0.96, 0.5],
                           xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
                           yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120])
+                          angles: [160, 50, 0, -50, -120],
+                          objective: "Capture an odd number of 👽."
+                        )
                     // Even 👽. Change only the ending state
                 } else if levelNum == 3{
                     Level(levelNum: $levelNum,
                           level: "level\(levelNum)_",
                           bodies: ["👽", "🌒"],
-                          answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
+                          answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
                           pickerXPos: [0.5, 0.93, 0.5, 0.06],
                           pickerYPos: [0.05, 0.5, 0.96, 0.5],
                           xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
                           yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120])
+                          angles: [160, 50, 0, -50, -120],
+                          objective: "Capture an even number of 👽.")
                 }
                 // At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽
                 else if levelNum == 4 {
@@ -82,7 +86,8 @@ struct ContentView: View {
                           pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
                           xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
                           yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120])
+                          angles: [160, 50, 0, -50, -120],
+                          objective: "At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽, but can capture more than that.")
                 }
                 // Goodbye screen
                 else if levelNum == 5 {
@@ -93,8 +98,8 @@ struct ContentView: View {
                             .font(.system(size: 50))
                         // goodbye!
                         
-                        Button("QUIT", action: {
-                            print("Out")
+                        Button("RETURN", action: {
+                            levelNum = 0
                         })
                         .buttonStyle(CustomButton(myColor: .white))
                         .font(.system(size: 60))
@@ -130,7 +135,7 @@ struct Level : View {
     let timer = Timer.publish(every: 0.8, on: .main, in: .common)
     // current step for rocket animation
     @State var pos : Int = 0
-    
+    @State var popover : Bool = true
     // bodies for the picker to pick. It starts at "?", but there's only the alphabet options to choose
     @State private var selectedBody1 = "?"
     @State private var selectedBody2 = "?"
@@ -141,6 +146,8 @@ struct Level : View {
     // an array with all the selected bodies and current state
     @State var selectedBodies: [String] = []
     //winning condition
+    @State var objective : String
+    
     @State var won : Bool = false
     @State var unlocked : Bool = true
     
@@ -226,6 +233,21 @@ struct Level : View {
             self.selectedBodies.append(selectedBody4)
             self.selectedBodies.append(selectedBody5)
             self.selectedBodies.append(selectedBody6)
+        }.popover(isPresented: $popover){
+            ObjectiveView(text: objective)
+            
+        }
+    }
+}
+
+struct ObjectiveView : View{
+    let text : String
+    var body: some View{
+        ZStack{
+            Color.black.ignoresSafeArea()
+            Text(text)
+                .foregroundColor(.white)
+                .padding()
         }
     }
 }
