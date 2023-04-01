@@ -16,7 +16,7 @@ struct Level : View {
     let timer = Timer.publish(every: 0.8, on: .main, in: .common)
     // current step for rocket animation
     @State var pos : Int = 0
-    @State var popover : Bool = false
+    @State var popover : Bool = true
     // bodies for the picker to pick. It starts at "?", but there's only the alphabet options to choose
     @State private var selectedBody1 = "?"
     @State private var selectedBody2 = "?"
