@@ -40,7 +40,7 @@ class LevelViewModel : ObservableObject {
                    objective: "Collect an odd number of 👽."),
         
         LevelModel(levelNum: 3,
-                   level: "level3_",
+                   level: "level2_",
                    answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
                    pickerXPos: [0.5, 0.93, 0.5, 0.06],
                    pickerYPos: [0.05, 0.5, 0.96, 0.5],
