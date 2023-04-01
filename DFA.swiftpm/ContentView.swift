@@ -19,45 +19,45 @@ class Global : ObservableObject{
 class LevelViewModel : ObservableObject {
     @Published var allLevels: [LevelModel] =
     [
-            LevelModel(
-                  levelNum: 1,
-                  level: "level1_",
-                  answer: ["👽", "?", "?", "?", "?", "?"],
-                  pickerXPos: [0.5],
-                  pickerYPos: [0.05],
-                  xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
-                  yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
-                  angles: [110, 50, 0, -50, -120],
-                  objective: "Collect as many 👽 as you need as long as, in the end, you return to your home planet."),
-            LevelModel(levelNum: 2,
-                    level: "level2_",
-                  answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
-                  pickerXPos: [0.5, 0.93, 0.5, 0.06],
-                  pickerYPos: [0.05, 0.5, 0.96, 0.5],
-                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                  yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                  angles: [160, 50, 0, -50, -120],
-                  objective: "Collect an odd number of 👽."),
-            
-            LevelModel(levelNum: 3,
-                       level: "level3_",
-                  answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
-                  pickerXPos: [0.5, 0.93, 0.5, 0.06],
-                  pickerYPos: [0.05, 0.5, 0.96, 0.5],
-                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                  yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                  angles: [160, 50, 0, -50, -120],
-                  objective: "Capture an even number of 👽."),
-            
-            LevelModel(levelNum: 4,
-                       level: "level4_",
-                  answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
-                  pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
-                  pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
-                  xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                  yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
-                  angles: [160, 50, 0, -50, -120],
-                  objective: "At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽, but can capture more than that.")]
+        LevelModel(
+            levelNum: 1,
+            level: "level1_",
+            answer: ["👽", "?", "?", "?", "?", "?"],
+            pickerXPos: [0.5],
+            pickerYPos: [0.05],
+            xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
+            yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
+            angles: [110, 50, 0, -50, -120],
+            objective: "Collect as many 👽 as you need as long as, in the end, you return to your home planet."),
+        LevelModel(levelNum: 2,
+                   level: "level2_",
+                   answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
+                   pickerXPos: [0.5, 0.93, 0.5, 0.06],
+                   pickerYPos: [0.05, 0.5, 0.96, 0.5],
+                   xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                   yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
+                   angles: [160, 50, 0, -50, -120],
+                   objective: "Collect an odd number of 👽."),
+        
+        LevelModel(levelNum: 3,
+                   level: "level3_",
+                   answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
+                   pickerXPos: [0.5, 0.93, 0.5, 0.06],
+                   pickerYPos: [0.05, 0.5, 0.96, 0.5],
+                   xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                   yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
+                   angles: [160, 50, 0, -50, -120],
+                   objective: "Capture an even number of 👽."),
+        
+        LevelModel(levelNum: 4,
+                   level: "level4_",
+                   answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
+                   pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
+                   pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
+                   xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
+                   yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
+                   angles: [160, 50, 0, -50, -120],
+                   objective: "At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽, but can capture more than that.")]
 }
 
 struct ContentView: View {
@@ -76,43 +76,43 @@ struct ContentView: View {
             if global.levelNum == 0 {
                 WelcomeView().environmentObject(global)
             }
-                // take as many 👽 as you need and return to your planet
+            // take as many 👽 as you need and return to your planet
             else if global.levelNum == 1{
-                    Level(levelModel: viewModel.allLevels[0])
-                        .environmentObject(global)
-                    // An odd number of 👽
+                Level(levelModel: viewModel.allLevels[0])
+                    .environmentObject(global)
+                // An odd number of 👽
             } else if global.levelNum == 2{
-                    Level(levelModel: viewModel.allLevels[1])
-                        .environmentObject(global)
-                    // Even 👽. Change only the ending state
+                Level(levelModel: viewModel.allLevels[1])
+                    .environmentObject(global)
+                // Even 👽. Change only the ending state
             } else if global.levelNum == 3{
-                    Level(levelModel: viewModel.allLevels[2])
-                        .environmentObject(global)
-                }
-                // At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽
+                Level(levelModel: viewModel.allLevels[2])
+                    .environmentObject(global)
+            }
+            // At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽
             else if global.levelNum == 4 {
-                    Level(levelModel: viewModel.allLevels[3])
-                        .environmentObject(global)
-                }
-                // Goodbye screen
+                Level(levelModel: viewModel.allLevels[3])
+                    .environmentObject(global)
+            }
+            // Goodbye screen
             else if global.levelNum == 5 {
-                    VStack{
-                        Text("Ganhou, môpi!")
-                            .foregroundColor(.white)
-                            .bold()
-                            .font(.system(size: 50))
-                        // goodbye!
-                        
-                        Button("RETURN", action: {
-                            global.levelNum = 0
-                        })
-                        .buttonStyle(CustomButton(myColor: .white))
-                        .font(.system(size: 60))
-                    }
+                VStack{
+                    Text("Ganhou, môpi!")
+                        .foregroundColor(.white)
+                        .bold()
+                        .font(.system(size: 50))
+                    // goodbye!
+                    
+                    Button("RETURN", action: {
+                        global.levelNum = 0
+                    })
+                    .buttonStyle(CustomButton(myColor: .white))
+                    .font(.system(size: 60))
                 }
             }
         }
     }
+}
 
 
 
@@ -127,21 +127,16 @@ struct WelcomeView: View{
                 .font(.largeTitle)
                 .padding(20)
             HStack{
-                    Button("CONTINUE", action: {
-                        print("GAME")
-                        print(global.levelNum)
-
-                        global.levelNum += 1
-                        
-                        print(global.levelNum)
-                    })
-                    .buttonStyle(CustomButton(myColor: .white))
-                    Button("WHAT IS THIS?", action: {
-                        print("Onboarding")
-                    })
-                    .buttonStyle(CustomButton(myColor: .white))
-                }
+                Button("CONTINUE", action: {
+                    global.levelNum += 1
+                })
+                .buttonStyle(CustomButton(myColor: .white))
+                Button("WHAT IS THIS?", action: {
+                    print("Onboarding")
+                })
+                .buttonStyle(CustomButton(myColor: .white))
             }
+        }
     }
 }
 struct OnBoardingView: View{
@@ -260,14 +255,16 @@ struct Level : View {
             self.selectedBodies.append(selectedBody4)
             self.selectedBodies.append(selectedBody5)
             self.selectedBodies.append(selectedBody6)
-        }.sheet(isPresented: $popover){
-            ObjectiveView(text: levelModel.objective)
+        }
+        .alert(isPresented: $popover){
+            Alert(title: Text("🚀"), message: Text(levelModel.objective), dismissButton: .cancel(Text("GO!")))
         }
     }
 }
 
 struct ObjectiveView : View{
     let text : String
+    @Environment(\.dismiss) var dismiss
     var body: some View{
         ZStack{
             Color.black.ignoresSafeArea()
@@ -277,6 +274,9 @@ struct ObjectiveView : View{
                     .font(.largeTitle)
                     .foregroundColor(.white)
                     .padding(30)
+                Button("GO BACK"){
+                    dismiss()
+                }.buttonStyle(CustomButton(myColor: .white))
             }
         }
     }
