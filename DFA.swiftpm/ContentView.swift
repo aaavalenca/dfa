@@ -3,7 +3,6 @@ import SwiftUI
 struct LevelModel {
     let levelNum: Int
     let level: String
-    let bodies: [String]
     let answer: [String]
     let pickerXPos: [CGFloat]
     let pickerYPos: [CGFloat]
@@ -13,13 +12,17 @@ struct LevelModel {
     let objective: String
 }
 
+class Global : ObservableObject{
+    @Published var levelNum : Int = 0
+}
+
 class LevelViewModel : ObservableObject {
+    
     @Published var allLevels: [LevelModel] =
     [
-            LevelModel(levelNum: 1,
-//                level: "level\(levelNum)_",
-                  level: "levellevelNum_",
-                  bodies: ["👽"],
+            LevelModel(
+                  levelNum: 1,
+                  level: "level1_",
                   answer: ["👽", "?", "?", "?", "?", "?"],
                   pickerXPos: [0.5],
                   pickerYPos: [0.05],
@@ -28,8 +31,7 @@ class LevelViewModel : ObservableObject {
                   angles: [110, 50, 0, -50, -120],
                   objective: "Capture as many 👽 as you need and return to your home planet."),
             LevelModel(levelNum: 2,
-                  level: "levellevelNum_",
-                  bodies: ["👽", "🌒"],
+                    level: "level2_",
                   answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
                   pickerXPos: [0.5, 0.93, 0.5, 0.06],
                   pickerYPos: [0.05, 0.5, 0.96, 0.5],
@@ -39,8 +41,7 @@ class LevelViewModel : ObservableObject {
                   objective: "Capture an odd number of 👽."),
             
             LevelModel(levelNum: 3,
-                  level: "levellevelNum_",
-                  bodies: ["👽", "🌒"],
+                       level: "level3_",
                   answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
                   pickerXPos: [0.5, 0.93, 0.5, 0.06],
                   pickerYPos: [0.05, 0.5, 0.96, 0.5],
@@ -50,8 +51,7 @@ class LevelViewModel : ObservableObject {
                   objective: "Capture an even number of 👽."),
             
             LevelModel(levelNum: 4,
-                  level: "levellevelNum_",
-                  bodies: ["👽", "🌒"],
+                       level: "level4_",
                   answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
                   pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
                   pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
@@ -62,8 +62,10 @@ class LevelViewModel : ObservableObject {
 }
 
 struct ContentView: View {
-    @State var levelNum : Int = 0
     @State var onboarding : Bool = true
+    @StateObject var viewModel = LevelViewModel()
+    @EnvironmentObject var global : Global
+    
     var body: some View {
         ZStack{
             Color.purple.brightness(-0.8).ignoresSafeArea()
@@ -72,84 +74,29 @@ struct ContentView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
             
-            VStack{
-                Text(onboarding ? "WELCOME ABOARD!" : "LEVEL \(levelNum)")
-                    .bold()
-                    .foregroundColor(.white)
-                    .font(.largeTitle)
-                    .padding(20)
-                HStack{
-                    if onboarding{
-                        Button("CONTINUE", action: {
-                            print("GAME")
-                            onboarding.toggle()
-                            levelNum += 1
-                        })
-                        .buttonStyle(CustomButton(myColor: .white))
-                        Button("WHAT IS THIS?", action: {
-                            print("Onboarding")
-                        })
-                        .buttonStyle(CustomButton(myColor: .white))
-                    }
-                }
-                
-                if levelNum == 0 {
-                    //onboarding
-                }
+            if global.levelNum == 0 {
+                WelcomeView().environmentObject(global)
+            }
                 // take as many 👽 as you need and return to your planet
-                else if levelNum == 1{
-                    Level(levelNum: $levelNum,
-                          level: "level\(levelNum)_",
-                          bodies: ["👽"],
-                          answer: ["👽", "?", "?", "?", "?", "?"],
-                          pickerXPos: [0.5],
-                          pickerYPos: [0.05],
-                          xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
-                          yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
-                          angles: [110, 50, 0, -50, -120],
-                          objective: "Capture as many 👽 as you need and return to your home planet.")
-                    
+            else if global.levelNum == 1{
+                    Level(levelModel: viewModel.allLevels[0])
+                        .environmentObject(global)
                     // An odd number of 👽
-                } else if levelNum == 2{
-                    Level(levelNum: $levelNum,
-                          level: "level\(levelNum)_",
-                          bodies: ["👽", "🌒"],
-                          answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
-                          pickerXPos: [0.5, 0.93, 0.5, 0.06],
-                          pickerYPos: [0.05, 0.5, 0.96, 0.5],
-                          xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                          yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120],
-                          objective: "Capture an odd number of 👽."
-                    )
+            } else if global.levelNum == 2{
+                    Level(levelModel: viewModel.allLevels[1])
+                        .environmentObject(global)
                     // Even 👽. Change only the ending state
-                } else if levelNum == 3{
-                    Level(levelNum: $levelNum,
-                          level: "level\(levelNum)_",
-                          bodies: ["👽", "🌒"],
-                          answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
-                          pickerXPos: [0.5, 0.93, 0.5, 0.06],
-                          pickerYPos: [0.05, 0.5, 0.96, 0.5],
-                          xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                          yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120],
-                          objective: "Capture an even number of 👽.")
+            } else if global.levelNum == 3{
+                    Level(levelModel: viewModel.allLevels[2])
+                        .environmentObject(global)
                 }
                 // At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽
-                else if levelNum == 4 {
-                    Level(levelNum: $levelNum,
-                          level: "level\(levelNum)_",
-                          bodies: ["👽", "🌒"],
-                          answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
-                          pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
-                          pickerYPos: [0.05, 0.37, 0.67, 0.96, 0.63, 0.32],
-                          xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
-                          yPos: [0.76, 0.15, 0.06, 0.16, 0.68],
-                          angles: [160, 50, 0, -50, -120],
-                          objective: "At least one occurence of 👽👽. That is, in your quest, you should capture at least once a consecutive 👽👽, but can capture more than that.")
+            else if global.levelNum == 4 {
+                    Level(levelModel: viewModel.allLevels[3])
+                        .environmentObject(global)
                 }
                 // Goodbye screen
-                else if levelNum == 5 {
+            else if global.levelNum == 5 {
                     VStack{
                         Text("Ganhou, môpi!")
                             .foregroundColor(.white)
@@ -158,7 +105,7 @@ struct ContentView: View {
                         // goodbye!
                         
                         Button("RETURN", action: {
-                            levelNum = 0
+                            global.levelNum = 0
                         })
                         .buttonStyle(CustomButton(myColor: .white))
                         .font(.system(size: 60))
@@ -167,8 +114,37 @@ struct ContentView: View {
             }
         }
     }
-}
 
+
+
+struct WelcomeView: View{
+    @EnvironmentObject var global: Global
+    
+    var body: some View{
+        VStack{
+            Text("WELCOME ABOARD!")
+                .bold()
+                .foregroundColor(.white)
+                .font(.largeTitle)
+                .padding(20)
+            HStack{
+                    Button("CONTINUE", action: {
+                        print("GAME")
+                        print(global.levelNum)
+
+                        global.levelNum += 1
+                        
+                        print(global.levelNum)
+                    })
+                    .buttonStyle(CustomButton(myColor: .white))
+                    Button("WHAT IS THIS?", action: {
+                        print("Onboarding")
+                    })
+                    .buttonStyle(CustomButton(myColor: .white))
+                }
+            }
+    }
+}
 struct OnBoardingView: View{
     var body: some View{
         VStack{
@@ -178,18 +154,9 @@ struct OnBoardingView: View{
 }
 
 struct Level : View {
-    @Binding var levelNum : Int
-    var level : String
-    // The "alphabet" of the automata
-    @State var bodies : [String]
-    var answer : [String]
-    // Where will all the pickers be situated withing the level
-    var pickerXPos: [CGFloat]
-    var pickerYPos: [CGFloat]
-    // The keyframes for animating the rocket, including angle
-    var xPos : [CGFloat]
-    var yPos : [CGFloat]
-    var angles : [Double]
+    @EnvironmentObject var global : Global
+    var levelModel : LevelModel
+    @State var bodies : [String] = ["👽", "🌒"]
     // for animating the rocket
     let timer = Timer.publish(every: 0.8, on: .main, in: .common)
     // current step for rocket animation
@@ -205,14 +172,13 @@ struct Level : View {
     // an array with all the selected bodies and current state
     @State var selectedBodies: [String] = []
     //winning condition
-    @State var objective : String
     
     @State var won : Bool = false
     @State var unlocked : Bool = true
     
     var body : some View{
         VStack{
-            Route(level: level)
+            Route(level: levelModel.level)
                 .overlay(
                     GeometryReader {geo in
                         // Pickers
@@ -221,33 +187,33 @@ struct Level : View {
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody1)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[0], y: geo.size.height * pickerYPos[0])
+                                .position(x: geo.size.width * levelModel.pickerXPos[0], y: geo.size.height * levelModel.pickerYPos[0])
                         }
                         // Levels 2 and 3 have four pickers
-                        if levelNum > 1 && unlocked {
+                        if global.levelNum > 1 && unlocked {
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody2)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[1], y: geo.size.height * pickerYPos[1])
+                                .position(x: geo.size.width * levelModel.pickerXPos[1], y: geo.size.height * levelModel.pickerYPos[1])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody3)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[2], y: geo.size.height * pickerYPos[2])
+                                .position(x: geo.size.width * levelModel.pickerXPos[2], y: geo.size.height * levelModel.pickerYPos[2])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody4)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[3], y: geo.size.height * pickerYPos[3])
+                                .position(x: geo.size.width * levelModel.pickerXPos[3], y: geo.size.height * levelModel.pickerYPos[3])
                         }
                         // Levels 4 and 5 have six pickers
-                        if levelNum > 3 && unlocked {
+                        if global.levelNum > 3 && unlocked {
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody5)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[4], y: geo.size.height * pickerYPos[4])
+                                .position(x: geo.size.width * levelModel.pickerXPos[4], y: geo.size.height * levelModel.pickerYPos[4])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody6)
                                 .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
-                                .position(x: geo.size.width * pickerXPos[5], y: geo.size.height * pickerYPos[5])
+                                .position(x: geo.size.width * levelModel.pickerXPos[5], y: geo.size.height * levelModel.pickerYPos[5])
                         }
                         
                         // Rocket animation
@@ -256,11 +222,11 @@ struct Level : View {
                             .frame(width: geo.size.width * 0.3, height: geo.size.width * 0.1)
                             .scaledToFit()
                             .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
-                            .rotationEffect(Angle(degrees: angles[pos]))
-                            .position(x: geo.size.width * (xPos[pos]), y: geo.size.height * (yPos[pos]))
+                            .rotationEffect(Angle(degrees: levelModel.angles[pos]))
+                            .position(x: geo.size.width * (levelModel.xPos[pos]), y: geo.size.height * (levelModel.yPos[pos]))
                             .animation(.linear(duration: 0.8), value: pos)
                     }.onReceive(timer, perform: { _ in
-                        if pos < xPos.count - 1 && won{
+                        if pos < levelModel.xPos.count - 1 && won{
                             pos = pos + 1
                         } else {
                             timer.connect().cancel()
@@ -273,7 +239,7 @@ struct Level : View {
                 
                 Button("CONTINUE", action: {
                     unlocked.toggle()
-                    levelNum+=1
+                    global.levelNum+=1
                 })
                 .padding(20)
                 .buttonStyle(CustomButton(myColor: .white)).padding()
@@ -282,7 +248,7 @@ struct Level : View {
                     selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
                     
                     //winning condition
-                    if selectedBodies == answer {
+                    if selectedBodies == levelModel.answer {
                         timer.connect()
                         won.toggle()
                     }
@@ -300,7 +266,7 @@ struct Level : View {
             self.selectedBodies.append(selectedBody5)
             self.selectedBodies.append(selectedBody6)
         }.popover(isPresented: $popover){
-            ObjectiveView(text: objective)
+            ObjectiveView(text: levelModel.objective)
             
         }
     }
@@ -347,7 +313,6 @@ struct CustomButton : ButtonStyle {
             .foregroundColor(myColor)
             .clipShape(Capsule())
     }
-    
 }
 
 // picker customization
