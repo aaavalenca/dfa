@@ -16,7 +16,7 @@ struct Level : View {
     let timer = Timer.publish(every: 0.8, on: .main, in: .common)
     // current step for rocket animation
     @State var pos : Int = 0
-    @State var popover : Bool = true
+    @State var popover : Bool = false
     // bodies for the picker to pick. It starts at "?", but there's only the alphabet options to choose
     @State private var selectedBody1 = "?"
     @State private var selectedBody2 = "?"
@@ -36,11 +36,6 @@ struct Level : View {
             Route(level: levelModel.level)
                 .overlay(
                     GeometryReader {geo in
-                        
-                        //finishline
-                        Text("🏁")
-                            .font(.system(size: geo.size.width * 0.15))
-                            .position(x: geo.size.width * levelModel.finishX, y: geo.size.height * levelModel.finishY)
                                             
                         // Pickers
                         // Level 1 only has one picker
@@ -77,12 +72,15 @@ struct Level : View {
                                 .position(x: geo.size.width * levelModel.pickerXPos[5], y: geo.size.height * levelModel.pickerYPos[5])
                         }
                         
+                        //finishline
+                        Text("🏁")
+                            .font(.system(size: geo.size.width * 0.15))
+                            .rotation3DEffect(.degrees(levelModel.finishAngle), axis: (x: 0, y: 0, z: 1))
+                            .position(x: geo.size.width * levelModel.finishX, y: geo.size.height * levelModel.finishY)
+                        
                         // Rocket animation
-                        Image("foguetin")
-                            .resizable()
-                            .frame(width: geo.size.width * 0.3, height: geo.size.width * 0.1)
-                            .scaledToFit()
-                            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                            Text("🚀")
+                            .font(.system(size: geo.size.width * 0.22))
                             .rotationEffect(Angle(degrees: levelModel.angles[pos]))
                             .position(x: geo.size.width * (levelModel.xPos[pos]), y: geo.size.height * (levelModel.yPos[pos]))
                             .animation(.linear(duration: 0.8), value: pos)
@@ -126,27 +124,7 @@ struct Level : View {
             self.selectedBodies.append(selectedBody6)
         }
         .alert(isPresented: $popover){
-            Alert(title: Text("🚀"), message: Text(levelModel.objective), dismissButton: .cancel(Text("GO!")))
-        }
-    }
-}
-
-struct ObjectiveView : View{
-    let text : String
-    @Environment(\.dismiss) var dismiss
-    var body: some View{
-        ZStack{
-            Color.black.ignoresSafeArea()
-            VStack{
-                Image("foguetin")
-                Text(text)
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .padding(30)
-                Button("GO BACK"){
-                    dismiss()
-                }.buttonStyle(CustomButton(myColor: .white))
-            }
+            Alert(title: Text("HELLO, SPACE TRAVELLER"), message: Text(levelModel.objective), dismissButton: .cancel(Text("GO!")))
         }
     }
 }

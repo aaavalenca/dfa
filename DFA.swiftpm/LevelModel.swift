@@ -13,4 +13,5 @@ struct LevelModel {
     let objective: String
     let finishX : CGFloat
     let finishY : CGFloat
+    let finishAngle : CGFloat
 }
