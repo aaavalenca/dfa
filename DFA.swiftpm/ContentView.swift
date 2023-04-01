@@ -17,7 +17,6 @@ class Global : ObservableObject{
 }
 
 class LevelViewModel : ObservableObject {
-    
     @Published var allLevels: [LevelModel] =
     [
             LevelModel(
@@ -29,7 +28,7 @@ class LevelViewModel : ObservableObject {
                   xPos: [0.8, 0.82, 0.5, 0.2, 0.2],
                   yPos: [0.7, 0.15, 0.06, 0.16, 0.68],
                   angles: [110, 50, 0, -50, -120],
-                  objective: "Capture as many 👽 as you need and return to your home planet."),
+                  objective: "Collect as many 👽 as you need as long as, in the end, you return to your home planet."),
             LevelModel(levelNum: 2,
                     level: "level2_",
                   answer: ["👽", "🌒", "👽", "🌒", "?", "?"],
@@ -38,7 +37,7 @@ class LevelViewModel : ObservableObject {
                   xPos: [0.7, 0.82, 0.5, 0.2, 0.2],
                   yPos: [0.676, 0.15, 0.06, 0.16, 0.68],
                   angles: [160, 50, 0, -50, -120],
-                  objective: "Capture an odd number of 👽."),
+                  objective: "Collect an odd number of 👽."),
             
             LevelModel(levelNum: 3,
                        level: "level3_",
@@ -236,17 +235,14 @@ struct Level : View {
                 .padding()
             // Continue to next stage. It's only able to tap when winning condition is met
             HStack{
-                
                 Button("CONTINUE", action: {
                     unlocked.toggle()
                     global.levelNum+=1
                 })
-                .padding(20)
                 .buttonStyle(CustomButton(myColor: .white)).padding()
                 .disabled(!won)
                 .onChange(of: [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]) { _ in
                     selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
-                    
                     //winning condition
                     if selectedBodies == levelModel.answer {
                         timer.connect()
@@ -256,8 +252,7 @@ struct Level : View {
                 Button("WHAT WAS IT AGAIN?"){
                     popover.toggle()
                 }.buttonStyle(CustomButton(myColor: .white))
-                    .padding()
-            }
+            }.padding()
         }.onAppear {
             self.selectedBodies.append(selectedBody1)
             self.selectedBodies.append(selectedBody2)
@@ -265,9 +260,8 @@ struct Level : View {
             self.selectedBodies.append(selectedBody4)
             self.selectedBodies.append(selectedBody5)
             self.selectedBodies.append(selectedBody6)
-        }.popover(isPresented: $popover){
+        }.sheet(isPresented: $popover){
             ObjectiveView(text: levelModel.objective)
-            
         }
     }
 }
@@ -277,9 +271,13 @@ struct ObjectiveView : View{
     var body: some View{
         ZStack{
             Color.black.ignoresSafeArea()
-            Text(text)
-                .foregroundColor(.white)
-                .padding()
+            VStack{
+                Image("foguetin")
+                Text(text)
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .padding(30)
+            }
         }
     }
 }
