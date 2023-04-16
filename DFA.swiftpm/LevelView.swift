@@ -1,10 +1,3 @@
-//
-//  LevelView.swift
-//  DFA
-//
-//  Created by aaav on 01/04/23.
-//
-
 import Foundation
 import SwiftUI
 
@@ -41,33 +34,27 @@ struct Level : View {
                         // Level 1 only has one picker
                         if unlocked{
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody1)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[0], y: geo.size.height * levelModel.pickerYPos[0])
                         }
                         // Levels 2 and 3 have four pickers
                         if global.levelNum > 1 && unlocked {
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody2)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[1], y: geo.size.height * levelModel.pickerYPos[1])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody3)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[2], y: geo.size.height * levelModel.pickerYPos[2])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody4)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[3], y: geo.size.height * levelModel.pickerYPos[3])
                         }
                         // Levels 4 and 5 have six pickers
                         if global.levelNum > 3 && unlocked {
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody5)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[4], y: geo.size.height * levelModel.pickerYPos[4])
                             MenuPicker(bodies: $bodies, selectedBody: $selectedBody6)
-                                .menuStyle(BodyMenu())
                                 .frame(width: geo.size.width * 0.2, height: geo.size.width * 0.2)
                                 .position(x: geo.size.width * levelModel.pickerXPos[5], y: geo.size.height * levelModel.pickerYPos[5])
                         }
@@ -99,7 +86,7 @@ struct Level : View {
                     unlocked.toggle()
                     global.levelNum+=1
                 })
-                .buttonStyle(CustomButton(myColor: .white)).padding()
+                .buttonStyle(CustomButton(myColor: .blue))
                 .disabled(!won)
                 .onChange(of: [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]) { _ in
                     selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
@@ -111,9 +98,15 @@ struct Level : View {
                         won = false
                     }
                 }
-                Button("WHAT WAS IT AGAIN?"){
-                    popover.toggle()
-                }.buttonStyle(CustomButton(myColor: .white))
+                
+                Button("MISSION"){
+                    popover = true
+                }.buttonStyle(CustomButton(myColor: .green))
+                
+                Button("BACK"){
+                    global.levelNum = 0
+                }.buttonStyle(CustomButton(myColor: .red))
+                
             }.padding()
         }.onAppear {
             self.selectedBodies.append(selectedBody1)
@@ -123,13 +116,16 @@ struct Level : View {
             self.selectedBodies.append(selectedBody5)
             self.selectedBodies.append(selectedBody6)
         }
-        .alert(isPresented: $popover){
-            Alert(title: Text("HELLO, SPACE TRAVELLER"), message: Text(levelModel.objective), dismissButton: .cancel(Text("GO!")))
+        
+        if popover {
+            SheetView(objective: levelModel.objective, close: $popover)
+                .animation(.spring())
+                .transition(.move(edge: .top))
         }
     }
 }
 
-struct MenuPicker : View{
+struct MenuPicker : View {
     @Binding var bodies : [String]
     @Binding var selectedBody : String
     
@@ -142,21 +138,13 @@ struct MenuPicker : View{
             })
         } label: {
             Text(selectedBody)
-                .font(.title2)
+                .font(.largeTitle)
+                .frame(maxWidth: 50, maxHeight: 50)
+                .padding(20)
+                .background(.white)
+                .cornerRadius(50)
+                .shadow(color: .white, radius: 20)
         }
-    }
-}
-
-// picker customization
-struct BodyMenu : MenuStyle{
-    func makeBody(configuration: Configuration) -> some View {
-        Menu(configuration)
-            .font(.largeTitle)
-            .frame(maxWidth: 60, maxHeight: 60)
-            .background(.white)
-            .cornerRadius(50)
-            .accentColor(.black)
-            .shadow(color: .white, radius: 20)
     }
 }
 

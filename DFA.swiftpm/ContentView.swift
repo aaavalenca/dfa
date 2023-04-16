@@ -36,64 +36,45 @@ struct ContentView: View {
             }
             // Goodbye screen
             else if global.levelNum == 5 {
-                VStack{
-                    Text("Ganhou, môpi!")
-                        .foregroundColor(.white)
-                        .bold()
-                        .font(.system(size: 50))
-                    // goodbye!
-                    
-                    Button("RETURN", action: {
-                        global.levelNum = 0
-                    })
-                    .buttonStyle(CustomButton(myColor: .white))
-                    .font(.system(size: 60))
-                }
+                GoodbyeView().environmentObject(global)
             }
         }
     }
 }
 
-struct WelcomeView: View{
+
+struct GoodbyeView: View{
     @EnvironmentObject var global: Global
-    
     var body: some View{
         VStack{
-            Text("WELCOME ABOARD!")
-                .bold()
+            Text("You won!")
                 .foregroundColor(.white)
+                .bold()
                 .font(.largeTitle)
-                .padding(20)
-            HStack{
-                Button("CONTINUE", action: {
-                    global.levelNum += 1
-                })
-                .buttonStyle(CustomButton(myColor: .white))
-                Button("WHAT IS THIS?", action: {
-                    print("Onboarding")
-                })
-                .buttonStyle(CustomButton(myColor: .white))
-            }
-        }
-    }
-}
-struct OnBoardingView: View{
-    var body: some View{
-        VStack{
-            Text("Onboarding")
+            Text("This puzzle was created by André Valença for the WWDC Challenge...")
+                .foregroundColor(.white)
+            
+            Button("RETURN", action: {
+                global.levelNum = 0
+            })
+            .buttonStyle(CustomButton(myColor: .blue))
         }
     }
 }
 
 // button customization
 struct CustomButton : ButtonStyle {
-    var myColor : Color
     @Environment(\.isEnabled) var isEnabled
+    var myColor : Color
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding()
-            .background(isEnabled ? .blue : .red)
-            .foregroundColor(myColor)
-            .clipShape(Capsule())
+            .frame(minWidth: 80, maxWidth: 150, minHeight: 40, maxHeight: 80)
+            .background(isEnabled ? myColor : .gray)
+            .foregroundColor(.white)
+            .cornerRadius(30)
+            .padding(10)
+            .controlSize(.large)
     }
 }
+
+
