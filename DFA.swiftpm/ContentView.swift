@@ -70,7 +70,6 @@ struct CustomButton : ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(minWidth: 80, maxWidth: 150, minHeight: 40, maxHeight: 80)
-//            .background(isEnabled ? myColor : .gray)
             .background(
                 isEnabled
                 ?

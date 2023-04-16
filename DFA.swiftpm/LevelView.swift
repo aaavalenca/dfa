@@ -154,18 +154,18 @@ struct MenuPicker : View {
 
 struct Route : View {
     @State private var idx : Int = 0
-    private let timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 0.7, on: .main, in: .common).autoconnect()
     var level : String
     var body: some View{
         // animation for space route arrows to move
         ZStack{
-            Image(level + "1")
+            Image(level + "0")
                 .resizable()
                 .scaledToFit()
             Image(level + "\(idx)")
                 .resizable()
                 .scaledToFit()
-                .animation(.easeInOut(duration: 3))
+                .animation(.easeInOut(duration: 2))
                 .onReceive(timer) { _ in
                     withAnimation{
                         self.idx = self.idx < 3 ? self.idx + 1 : 0

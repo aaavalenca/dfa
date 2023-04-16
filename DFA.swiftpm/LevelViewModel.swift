@@ -13,7 +13,7 @@ class LevelViewModel : ObservableObject {
             xPos: [0.82, 0.82, 0.6, 0.2, -3],
             yPos: [0.9, 0.9, 0.6, 0.2, -3],
             angles: [65, -50, -65, -70, -75],
-            objective: "Gather as many 👽 as you need, including no 👽",
+            objective: "Gather as many 👽 as you need",
             finishX: 0.5,
             finishY: 0.68,
             finishAngle: -15),
