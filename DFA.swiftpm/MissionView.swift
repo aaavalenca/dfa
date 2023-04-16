@@ -36,18 +36,18 @@ struct SheetView : View {
     
     var body: some View {
         VStack{
-            Text("MISSION:\n\n==================>\n" + objective + "\n<==================\n\n* Starting point: 🏁 *\n* Finishing point: 🚀 *")
+            Text("MISSION:\n==================>\n" + objective + "\n<==================\n* Starting point: 🏁 *\n* Finishing point: 🚀 *")
                 .foregroundColor(.green)
                 .multilineTextAlignment(.center)
                 .padding(40)
-                .font(.custom("Courier-Bold", size: 30))
-//                .font(.system(size: 400))
-                .minimumScaleFactor(0.005)
+                .font(.custom("Courier-Bold", size: 100))
+                .minimumScaleFactor(0.05)
+                .lineSpacing(10)
 
             Button("CLOSE"){
                 close.toggle()
             }
-            .buttonStyle(CustomButton(myColor: .red))
+            .buttonStyle(CustomButton(myColor: Color(red: 134/255, green: 0, blue: 0), myColor2:  Color(red: 1, green: 70/255, blue: 70/255)))
             .padding(40)
         }
         .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.width * 0.5)

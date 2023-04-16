@@ -86,7 +86,7 @@ struct Level : View {
                     unlocked.toggle()
                     global.levelNum+=1
                 })
-                .buttonStyle(CustomButton(myColor: .blue))
+                .buttonStyle(CustomButton(myColor: Color(red: 13/255, green: 0, blue: 160/255) , myColor2: Color(red: 1/255, green: 197/255, blue: 32/255)))
                 .disabled(!won)
                 .onChange(of: [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]) { _ in
                     selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
@@ -101,11 +101,15 @@ struct Level : View {
                 
                 Button("MISSION"){
                     popover = true
-                }.buttonStyle(CustomButton(myColor: .green))
+                }
+                .buttonStyle(CustomButton(myColor: Color(red: 190/255, green: 0, blue: 0) , myColor2: Color(red: 187/255, green: 191/255, blue: 0)))
+
                 
                 Button("BACK"){
                     global.levelNum = 0
-                }.buttonStyle(CustomButton(myColor: .red))
+                }
+                .buttonStyle(CustomButton(myColor: Color(red: 30/255, green: 0, blue: 148/255), myColor2: Color(red: 134/255, green: 0, blue: 0)))
+
                 
             }.padding()
         }.onAppear {
@@ -150,7 +154,7 @@ struct MenuPicker : View {
 
 struct Route : View {
     @State private var idx : Int = 0
-    private let timer = Timer.publish(every: 0.7, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     var level : String
     var body: some View{
         // animation for space route arrows to move
@@ -161,10 +165,10 @@ struct Route : View {
             Image(level + "\(idx)")
                 .resizable()
                 .scaledToFit()
-                .animation(.easeInOut(duration: 2))
+                .animation(.easeInOut(duration: 3))
                 .onReceive(timer) { _ in
                     withAnimation{
-                        self.idx = self.idx < 7 ? self.idx + 1 : 0
+                        self.idx = self.idx < 3 ? self.idx + 1 : 0
                     }
                 }
         }

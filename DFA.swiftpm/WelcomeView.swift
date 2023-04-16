@@ -14,29 +14,22 @@ struct WelcomeView: View{
                         .resizable()
                         .scaledToFill()
                         .ignoresSafeArea()
+//                    Image("cover")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .ignoresSafeArea()
                     
-                VStack (spacing: 0){
-                    Spacer()
-                    Text("WELCOME ABOARD,")
-                        .bold()
-                        .foregroundColor(.white)
-                        .font(.largeTitle)
+                    Route(level: "cover")
+                        .colorMultiply(Color(.white))
                     
-                    Text("Deterministic Finite Astronauts")
-                        .bold()
-                        .foregroundColor(.white)
-                        .font(.title3)
-                        .padding(20)
-                    Spacer()
-                    
-                    Rocket().rotation3DEffect(Angle(degrees: 210), axis: (x: 0, y: 0, z: 1)).frame(maxWidth: 200).padding()
-                    
+                VStack {
                     Spacer()
                     HStack() {
                         Button ("GO ON"){
                             global.levelNum += 1
                         }
-                        .buttonStyle(CustomButton(myColor: .blue))
+                        .buttonStyle(CustomButton(myColor: Color(red: 13/255, green: 0, blue: 160/255) , myColor2: Color(red: 1/255, green: 197/255, blue: 32/255)))
+
                         
                         NavigationLink(destination: OnBoardingView(), isActive: $popover) { EmptyView()
                             
@@ -45,11 +38,9 @@ struct WelcomeView: View{
                         Button ("WHAT?"){
                             popover.toggle()
                         }
-                        .buttonStyle(CustomButton(myColor: .green))
-                        
+                        .buttonStyle(CustomButton(myColor: Color(red: 190/255, green: 0, blue: 0) , myColor2: Color(red: 187/255, green: 191/255, blue: 0)))
                     }
-                    Spacer()
-                }
+                }.padding(.bottom, 60)
             }
         }.navigationViewStyle(StackNavigationViewStyle())
     }
@@ -73,17 +64,17 @@ struct WelcomeView_Previews: PreviewProvider {
     }
 }
 
-struct Rocket : View {
-    @State private var idx : Int = 1
-    private let timer = Timer.publish(every: 0.07, on: .main, in: .common).autoconnect()
-    var body: some View{
-        ZStack{
-            Image("foguetin" + "\(idx)")
-                .resizable()
-                .scaledToFit()
-                .onReceive(timer) { _ in
-                        self.idx = self.idx < 3 ? self.idx + 1 : 1
-                }
-        }
-    }
-}
+//struct Rocket : View {
+//    @State private var idx : Int = 1
+//    private let timer = Timer.publish(every: 0.07, on: .main, in: .common).autoconnect()
+//    var body: some View{
+//        ZStack{
+//            Image("foguetin" + "\(idx)")
+//                .resizable()
+//                .scaledToFit()
+//                .onReceive(timer) { _ in
+//                        self.idx = self.idx < 3 ? self.idx + 1 : 1
+//                }
+//        }
+//    }
+//}

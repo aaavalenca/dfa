@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "cover1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "level4_5@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
