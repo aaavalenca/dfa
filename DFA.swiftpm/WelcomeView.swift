@@ -1,3 +1,6 @@
+// DESIGNED FOR IPAD
+// ORIENTATION MODE OF THE APP IS PORTRAIT
+
 import Foundation
 import SwiftUI
 

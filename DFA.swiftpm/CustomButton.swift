@@ -1,9 +1,4 @@
-//
-//  CustomButton.swift
-//  DFA
-//
-//  Created by aaav on 16/04/23.
-//
+// ORIENTATION MODE OF THE APP IS PORTRAIT
 
 import Foundation
 import SwiftUI

@@ -1,9 +1,4 @@
-//
-//  Route.swift
-//  DFA
-//
-//  Created by aaav on 16/04/23.
-//
+// ORIENTATION MODE OF THE APP IS PORTRAIT
 
 import SwiftUI
 
@@ -21,7 +16,6 @@ struct Route : View {
             Image(level + "\(idx)")
                 .resizable()
                 .scaledToFit()
-//                .animation(.easeInOut(duration: 2))
                 .onReceive(timer) { _ in
                     withAnimation(Animation.easeInOut(duration: 2)){
                         self.idx = self.idx < 3 ? self.idx + 1 : 0

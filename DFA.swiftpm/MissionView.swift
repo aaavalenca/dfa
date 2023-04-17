@@ -1,3 +1,5 @@
+// ORIENTATION MODE OF THE APP IS PORTRAIT
+
 import SwiftUI
 
 struct MissionView : View {
