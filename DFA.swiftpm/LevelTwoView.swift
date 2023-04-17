@@ -31,6 +31,8 @@ struct LevelTwoView : View {
     @State var won : Bool = false
     @State var next : Bool = false
     
+    @Binding var isActive : Bool
+    
     var body : some View{
         ZStack{
             Color.purple.brightness(-0.8).ignoresSafeArea()
@@ -80,7 +82,7 @@ struct LevelTwoView : View {
                 // Continue to next stage. It's only able to tap when winning condition is met
                 HStack{
                     
-                    NavigationLink(destination: LevelThreeView(), isActive: $next) { EmptyView()}
+                    NavigationLink(destination: LevelThreeView(isActive: $isActive), isActive: $next) { EmptyView()}
                     
                     Button("CONTINUE", action: {
                         next.toggle()
@@ -128,8 +130,9 @@ struct LevelTwoView : View {
         }.navigationBarBackButtonHidden(true)
     }
 }
-struct LevelTwoView_Previews: PreviewProvider {
-    static var previews: some View {
-        LevelTwoView()
-    }
-}
+
+//struct LevelTwoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LevelTwoView()
+//    }
+//}

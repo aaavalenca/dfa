@@ -27,9 +27,10 @@ struct LevelOneView : View {
     // an array with all the selected bodies and current state
     @State var selectedBodies: [String] = []
     //winning condition
-    
     @State var won : Bool = false
     @State var next : Bool = false
+    
+    @Binding var isActive : Bool
     
     var body : some View{
         ZStack{
@@ -71,7 +72,7 @@ struct LevelOneView : View {
                 // Continue to next stage. It's only able to tap when winning condition is met
                 HStack{
                     
-                    NavigationLink(destination: LevelTwoView(), isActive: $next) { EmptyView()}
+                    NavigationLink(destination: LevelTwoView(isActive: $isActive), isActive: $next) { EmptyView()}
                     
                     Button("CONTINUE", action: {
                         next.toggle()
@@ -116,11 +117,12 @@ struct LevelOneView : View {
                     .animation(.spring())
                     .transition(.move(edge: .top))
             }
-        }
+        }.navigationBarBackButtonHidden(true)
     }
 }
-struct LevelOneView_Previews: PreviewProvider {
-    static var previews: some View {
-        LevelOneView()
-    }
-}
+
+//struct LevelOneView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LevelOneView()
+//    }
+//}

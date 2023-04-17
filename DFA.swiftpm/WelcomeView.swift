@@ -28,7 +28,7 @@ struct WelcomeView: View{
                                 
                             }
                             
-                            NavigationLink(destination: LevelOneView(), isActive: $game) { EmptyView()}
+                            NavigationLink(destination: LevelOneView(isActive: $game), isActive: $game) { EmptyView()}
                             
                             Button ("WHAT?"){
                                 popover.toggle()
@@ -38,7 +38,7 @@ struct WelcomeView: View{
                     }.padding(.bottom, 60)
                 }.zIndex(1)
                     .onAppear(perform: {
-                        withAnimation(.easeIn(duration: 1.0).delay(1)) {
+                        withAnimation(.easeInOut(duration: 1.0).delay(1)) {
                             fadeout = false
                         }
                     })
