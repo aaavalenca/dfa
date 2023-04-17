@@ -129,7 +129,7 @@ struct LevelFourView : View {
             }
             
             if popover {
-                SheetView(objective: viewModel.allLevels[level].objective, close: $popover)
+                MissionView(objective: viewModel.allLevels[level].objective, close: $popover)
                     .animation(.spring())
                     .transition(.move(edge: .top))
             }

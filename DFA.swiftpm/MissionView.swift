@@ -1,35 +1,6 @@
-//
-//  MissionView.swift
-//  DFA
-//
-//  Created by aaav on 15/04/23.
-//
-
 import SwiftUI
 
-struct MissionView: View {
-    @State var showSheet: Bool = true
-    var levelViewModel : LevelViewModel = LevelViewModel()
-    var body: some View {
-        ZStack {
-            Text("Hello, World!")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .onTapGesture {
-                    showSheet.toggle()
-                }
-                
-            if showSheet {
-                SheetView(objective: levelViewModel.allLevels[0].objective, close: $showSheet)
-                    .animation(.spring())
-                    .transition(.move(edge: .top))
-//                    .transition(.move(edge: .bottom))
-            }
-        }
-    }
-}
-
-
-struct SheetView : View {
+struct MissionView : View {
     
     let objective : String
     @Binding var close : Bool
@@ -61,11 +32,5 @@ struct SheetView : View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.gray, lineWidth: 40)
         )
-    }
-}
-
-struct MissionView_Previews: PreviewProvider {
-    static var previews: some View {
-        MissionView()
     }
 }
