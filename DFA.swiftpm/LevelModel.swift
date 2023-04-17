@@ -1,7 +1,6 @@
 import Foundation
 
 struct LevelModel {
-    let levelNum: Int
     let level: String
     let answer: [String]
     let answer2: [String]

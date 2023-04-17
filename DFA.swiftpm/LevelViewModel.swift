@@ -4,7 +4,6 @@ class LevelViewModel : ObservableObject {
     @Published var allLevels: [LevelModel] =
     [
         LevelModel(
-            levelNum: 1,
             level: "level1_",
             answer: ["👽", "?", "?", "?", "?", "?"],
             answer2: ["👽", "?", "?", "?", "?", "?"],
@@ -18,8 +17,7 @@ class LevelViewModel : ObservableObject {
             finishY: 0.68,
             finishAngle: -15),
             
-        LevelModel(levelNum: 2,
-                   level: "level2_",
+        LevelModel(level: "level2_",
                    answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
                    answer2: ["🌒", "👽", "🌒", "👽", "?", "?"],
                    pickerXPos: [0.5, 0.93, 0.5, 0.06],
@@ -32,8 +30,7 @@ class LevelViewModel : ObservableObject {
                    finishY: 0.24,
                    finishAngle: -67),
         
-        LevelModel(levelNum: 3,
-                   level: "level2_",
+        LevelModel(level: "level2_",
                    answer: ["🌒", "👽", "🌒", "👽", "?", "?"],
                    answer2: ["🌒", "👽", "🌒", "👽", "?", "?"],
                    pickerXPos: [0.5, 0.93, 0.5, 0.06],
@@ -46,8 +43,7 @@ class LevelViewModel : ObservableObject {
                    finishY: 0.6,
                    finishAngle: -18),
         
-        LevelModel(levelNum: 4,
-                   level: "level4_",
+        LevelModel(level: "level4_",
                    answer: ["👽", "👽", "👽", "🌒", "🌒", "🌒"],
                    answer2: ["🌒", "👽", "👽", "🌒", "🌒", "👽"],
                    pickerXPos: [0.5, 0.91, 0.88, 0.48, 0.1, 0.1],
