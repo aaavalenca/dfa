@@ -44,10 +44,14 @@ struct SheetView : View {
                 .minimumScaleFactor(0.05)
                 .lineSpacing(10)
 
-            Button("CLOSE"){
-                close.toggle()
+            Button {
+                self.close.toggle()
+            } label: {
+                Text("PLAY ==>")
+                    .font(.custom("Courier-Bold", size: 30))
+                    .background(.green)
+                    .foregroundColor(.black)
             }
-            .buttonStyle(CustomButton(myColor: Color(red: 134/255, green: 0, blue: 0), myColor2:  Color(red: 1, green: 70/255, blue: 70/255)))
             .padding(40)
         }
         .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.width * 0.5)

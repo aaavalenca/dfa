@@ -11,7 +11,7 @@ struct LevelOneView : View {
     let level : Int = 0
     @Environment(\.presentationMode) var presentation
     @StateObject var viewModel = LevelViewModel()
-    @State var bodies : [String] = ["👽", "🌒"]
+    @State var bodies : [String] = ["👽"]
     // for animating the rocket
     let timer = Timer.publish(every: 0.8, on: .main, in: .common)
     // current step for rocket animation
