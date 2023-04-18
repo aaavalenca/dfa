@@ -9,7 +9,7 @@ struct MissionView : View {
     
     var body: some View {
         VStack{
-            Text("MISSION:\n==================>\n" + objective + "\n<==================\n* Starting point: 🏁 *\n* Finishing point: 🚀 *")
+            Text("MISSION:\n==================>\n" + objective + "\n<==================\n* Starting point: 🚀 *\n* Finishing point: 🏁 *")
                 .foregroundColor(.green)
                 .multilineTextAlignment(.center)
                 .padding(40)
