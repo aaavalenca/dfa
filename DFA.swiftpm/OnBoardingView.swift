@@ -117,7 +117,7 @@ struct OnBoardingView: View{
                 }
                 
                 Group{
-                    Text("How about we take a look a Deterministic Finite Automata working for a bit? Press => to go about a machine with alphabet [a, b] that recognizes strings that end in \"b\". Our example string is \"abba\".")
+                    Text("How about we take a look a Deterministic Finite Automata working for a bit? Press ==> to go about a machine with alphabet [a, b] that recognizes strings that end in \"b\". Our example string is \"abba\".")
                         .font(.custom("Courier-Bold", size: 30))
                         .foregroundColor(.green)
                         .multilineTextAlignment(.leading)
