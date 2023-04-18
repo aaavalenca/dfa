@@ -78,6 +78,9 @@ struct LevelOneView : View {
                         selectedBodies = [selectedBody1, selectedBody2, selectedBody3, selectedBody4, selectedBody5, selectedBody6]
                         //winning condition
                         if (selectedBodies == viewModel.allLevels[level].answer) || (selectedBodies == viewModel.allLevels[level].answer2)  {
+                            if Global.shared.sound{
+                                Sounds.playSounds(soundfile: "won.mp3")
+                            }
                             timer.connect()
                             won.toggle()
                         } else {

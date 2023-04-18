@@ -10,26 +10,32 @@ struct GoodbyeView: View{
         
         ZStack{
             Color.black.ignoresSafeArea()
-            Image("background").resizable().scaledToFill().ignoresSafeArea()
             VStack{
-                Text("YOU WON!")
-                    .foregroundColor(.white)
-                    .bold()
-                    .font(.system(size: 60))
-                    .padding(.top, 60)
                 
-                Spacer()
-                Text("This puzzle was created\nby André Valença for the\nSwift Student Challenge of\nthe 2023 Apple Worldwide\nDevelopers Conference.\n\n Hope you liked it!")
-                    .font(.system(size: 40))
-                    .foregroundColor(.white)
+                Image("final")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width * 0.095)
+                Text("YOU WON!")
+                    .font(.custom("Courier-Bold", size: 50))
+                    .foregroundColor(.green)
                     .multilineTextAlignment(.center)
-
-                Spacer()
-                Button("RETURN", action: {
+                    .padding(40)
+                
+                Text("This puzzle was made\nby André Valença for the\nSwift Student Challenge of\nthe 2023 Apple Worldwide\nDevelopers Conference.\n\nAssets were drawn on Figma.\n\nAmbience and sound effect\nwere created using royalty\nfree AI music generator\nSoundful.\n\nThanks!")
+                    .font(.custom("Courier-Bold", size: 30))
+                    .foregroundColor(.green)
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(10)
+                
+                Button {
                     self.isActive.toggle()
-                })
-                .buttonStyle(CustomButton(myColor: Color(red: 30/255, green: 0, blue: 148/255), myColor2: Color(red: 134/255, green: 0, blue: 0)))
-                .padding(.bottom, 60)
+                } label: {
+                    Text("<==== BACK")
+                        .font(.custom("Courier-Bold", size: 30))
+                        .background(.green)
+                        .foregroundColor(.black)
+                }.padding(40)
             }.navigationBarBackButtonHidden(true)
         }
     }

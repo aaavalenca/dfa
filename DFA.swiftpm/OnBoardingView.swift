@@ -160,6 +160,7 @@ struct OnBoardingView: View{
                         .font(.custom("Courier-Bold", size: 30))
                         .foregroundColor(.green)
                         .multilineTextAlignment(.leading)
+                        .lineSpacing(10)
                 }
                 
                 HStack{

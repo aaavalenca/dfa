@@ -89,6 +89,9 @@ struct LevelTwoView : View {
                         //winning condition
                         if (selectedBodies == viewModel.allLevels[level].answer) || (selectedBodies == viewModel.allLevels[level].answer2)  {
                             timer.connect()
+                            if Global.shared.sound{
+                                Sounds.playSounds(soundfile: "won.mp3")
+                            }
                             won.toggle()
                         } else {
                             won = false
