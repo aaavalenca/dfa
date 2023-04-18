@@ -28,7 +28,7 @@ struct ContentView: View {
                             
                         } label: {
                             isEnabled ?
-                            Image(systemName: "speaker.fill")
+                            Image(systemName: "speaker.wave.2.fill")
                                 .frame(minWidth: 50, maxWidth: 70, minHeight: 50, maxHeight: 70)
                             :
                             Image(systemName: "speaker.slash.fill")
